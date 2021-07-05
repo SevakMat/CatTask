@@ -1,0 +1,31 @@
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  background-color: #f1f1f1;
+}
+
+li span {
+  cursor: pointer;
+  display: block;
+  color: #000;
+  padding: 8px 16px;
+  text-decoration: none;
+  text-transform: capitalize;
+}
+
+li span.active {
+  background-color: #04AA6D;
+  color: white;
+}
+
+li span:hover:not(.active) {
+  background-color: rgb(2, 177, 2);
+  color: white;
+}
+
+.categories {
+  text-align: center;
+  border: 2px solid rgba(0, 0, 0, 0.05);
+}

@@ -1,17 +1,18 @@
 import {useEffect,useState} from "react";
 import { useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
+import './categories.css';
 
 
 function Categories(){
   const history = useHistory();
-  const dispach = useDispatch()
-  const [categories,getcategories]= useState([])
+  const dispatch = useDispatch()
+  const [categories,getCategories]= useState([])
 
   const getData = async() => {
     const x = await fetch(`https://api.thecatapi.com/v1/categories `)
     const y = await x.json()
-    getcategories(y)
+    getCategories(y)
   }
 
   useEffect(()=>{
@@ -21,29 +22,24 @@ function Categories(){
   function selectCategory(ev){
     let selectedId = ""
     categories.forEach((item)=>{
-      if(item.name===ev.currentTarget.textContent){ 
+      if(item.name === ev.currentTarget.textContent){ 
         selectedId=item.id
       }
     })
     history.push(`/homePage/${selectedId}`);
-    dispach({
+    dispatch({
       type:"changeCategory",
       peyload:selectedId
     })
   }
 
-  const styles = {
-    textAlign:"center",
-    border: '2px solid rgba(0, 0, 0, 0.05)', 
-};
-
   return (
-    <div style={styles}>
+    <div>
         {categories.map((item)=>{
           return(
-            <div key ={item.id} onClick={selectCategory} style={{margin:3,cursor:"pointer"},styles}>
-              {item.name}
-            </div>
+            <ul key ={item.id} className="categories" onClick={selectCategory}>
+              <li><span>{item.name}</span></li>
+            </ul>
           )
         })}
       </div>
