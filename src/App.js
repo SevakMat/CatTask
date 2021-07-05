@@ -1,9 +1,9 @@
-import HomePage from "./components/homePage";
+import HomePage from "./components/homePage/homePage";
 import { Route } from "react-router-dom";
 
 function App() {
   return (
-    <Route path = '/homepage/:category?'>
+    <Route path = '/'>
       <HomePage/>
     </Route>
   );

@@ -1,8 +1,11 @@
 import {useEffect,useState} from "react";
 import {useSelector} from "react-redux";
-import Categories from "./catrgories";
+import { useHistory } from "react-router";
+import Categories from "../categories/categories";
+import './homePage.css';
 
 function HomePage() {
+  const history = useHistory();
   const [photoData,getPhotoData]= useState([])
   const [photoCount,getPhotoCount] = useState(10)
   const category = useSelector(function(state){
@@ -10,10 +13,11 @@ function HomePage() {
   })
 
   const getData = async() => {
-    let dataFromApi = NaN  
+    let dataFromApi;  
 
     if(category === ""){
       dataFromApi = await fetch(`https://api.thecatapi.com/v1/images/search?limit=${photoCount}&page=1`)
+      history.push(`/homePage`);
     }
     else{
       dataFromApi = await fetch(`https://api.thecatapi.com/v1/images/search?limit=${photoCount}&page=1&category_ids=${category}`)
@@ -29,11 +33,17 @@ function HomePage() {
   function loadMorePhote(){
     getPhotoCount(photoCount+10 )
   }
+
+  if(!photoData.length) {
+
+    return <div className="lds-ring"><div></div></div>;
+  }
+
   return (
     <div >
       <div style={{display:"flex"}}>
       <Categories/>
-        <div style={{display:"flex",flexWrap:"wrap" ,justifyContent:"space-between",}} >
+        <div className="imageContent" >
           {photoData.map((item)=>{
             return(
               <div key = {item.url}>
@@ -43,7 +53,7 @@ function HomePage() {
           })}
         </div>
       </div>
-      <button onClick={loadMorePhote} style={{backgroundColor:"#4CAF50",color:"white",textAlign:"center",display: "inline-block"}} >Load more photes</button>
+      <button onClick={loadMorePhote} className="load" >Load more photes</button>
     </div>
   );
 }
